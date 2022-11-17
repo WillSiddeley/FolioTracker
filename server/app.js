@@ -13,9 +13,11 @@ app.use(cors());
 
 // Routers
 const quotes = require("./routers/quotes");
+const portfolios = require("./routers/portfolios");
 
 // GET Methods
 app.get('/api/v1/quotes/getPrice/:ticker', quotes.getPrice);
+app.get('/api/v1/portfolios/:userId', portfolios.getPortfolios);
 
 // Open Port
 app.listen(port, () => log.logToConsole("App listening on port", port));

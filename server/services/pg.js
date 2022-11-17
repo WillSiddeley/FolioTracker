@@ -1,4 +1,5 @@
 const pg = require("pg");
+const log = require("./log");
 
 var config = {
     user:       'deathyvoid',

@@ -3,7 +3,7 @@ CREATE SCHEMA info;
 
 CREATE TABLE info.tickers (
     id SERIAL UNIQUE,
-    symbol VARCHAR(5),
+    symbol VARCHAR(10),
     name VARCHAR(255)
 );
 
@@ -25,12 +25,12 @@ CREATE SCHEMA invest;
 CREATE TABLE invest.portfolio (
     id SERIAL UNIQUE,
     name VARCHAR(255),
-    user_ref INTEGER, CONSTRAINT user_ref_fk FOREIGN KEY(user_ref) REFERENCES users.users(id)
+    user_ref INTEGER, CONSTRAINT user_ref_fk FOREIGN KEY(user_ref) REFERENCES users.users(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE invest.investment (
     id SERIAL UNIQUE,
-    portfolio_ref INTEGER, CONSTRAINT portfolio_ref_fk FOREIGN KEY(portfolio_ref) REFERENCES invest.portfolio(id),
+    portfolio_ref INTEGER, CONSTRAINT portfolio_ref_fk FOREIGN KEY(portfolio_ref) REFERENCES invest.portfolio(id) ON DELETE CASCADE ON UPDATE CASCADE,
     ticker_ref INTEGER, CONSTRAINT ticker_ref_fk FOREIGN KEY(ticker_ref) REFERENCES info.tickers(id),
     investment_type_ref INTEGER, CONSTRAINT investment_type_ref_fk FOREIGN KEY(investment_type_ref) REFERENCES info.investment_type(id),
     quantity FLOAT
@@ -38,7 +38,9 @@ CREATE TABLE invest.investment (
 
 CREATE TABLE invest.lot (
     id SERIAL UNIQUE,
-    investment_ref INTEGER, CONSTRAINT investment_ref_fk FOREIGN KEY(investment_ref) REFERENCES invest.investment(id),
+    investment_ref INTEGER, CONSTRAINT investment_ref_fk FOREIGN KEY(investment_ref) REFERENCES invest.investment(id) ON DELETE CASCADE ON UPDATE CASCADE,
     quantity FLOAT,
     price_paid MONEY
 );
+
+CREATE VIEW portfolios AS SELECT
