@@ -1,9 +1,15 @@
+import Investment from "./Investment";
 
-class Portfolio {
+export default class Portfolio {
 
-    constructor(id, name) {
+    /**
+     * @param {String} id 
+     * @param {String} name 
+     */
+    constructor(id = -1, name = "") {
         this.id = id;
         this.name = name;
+        this.investments = {};
     }
 
     getId() {
@@ -14,4 +20,21 @@ class Portfolio {
         return this.name;
     }
 
+    getInvestments() {
+        return this.investments;
+    }
+
+    hasInvestment(investId) {
+        return (investId in this.investments);
+    }
+
+    getInvestment(investId) {
+        return (this.hasInvestment(investId)) ? this.investments[investId] : new Investment();
+    }
+
+    addInvestment(investId, investTicker, investType) {
+        if (!this.hasInvestment(investId)) this.investments[investId] = new Investment(investId, investTicker, investType);
+    }
+
+    
 }

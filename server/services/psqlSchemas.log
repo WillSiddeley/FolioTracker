@@ -43,4 +43,3 @@ CREATE TABLE invest.lot (
     price_paid MONEY
 );
 
-CREATE VIEW portfolios AS SELECT

@@ -36,3 +36,23 @@
     transform: rotate(360deg);
   }
 }
+
+.investList {
+  position: relative;
+  display: inline-block;
+  margin: 0;
+}
+
+.investListDropdown {
+  position: relative;
+  display: inline-block;
+  margin: 0;
+}
+
+.investListMenu {
+  position: absolute;
+  list-style-type: none;
+  margin: 5px 0;
+  padding: 0;
+  width: 150px;
+}

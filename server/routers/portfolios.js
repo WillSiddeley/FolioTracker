@@ -9,12 +9,13 @@ exports.getPortfolios = function(req, res) {
         p.id AS portfolio_id, 
         p.name AS portfolio_name, 
         i.id AS investment_id, 
-        tn.name AS ticker, 
+        tn.symbol AS ticker,
+        tn.name AS fullname, 
         it.name AS type, 
         i.quantity AS total_quantity, 
         l.id AS lot_id, 
         l.quantity AS lot_quantity, 
-        l.price_paid
+        l.price_paid::numeric::float8
     FROM invest.portfolio p
     JOIN invest.investment i ON i.portfolio_ref = p.id
     JOIN invest.lot l ON l.investment_ref = i.id
