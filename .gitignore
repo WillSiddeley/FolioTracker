@@ -8,9 +8,12 @@ lerna-debug.log*
 
 # dependencies
 /node_modules
-server/node_modules
+/server/node_modules
 /.pnp
 .pnp.js
+
+# Github access token
+gitAccess.txt
 
 # testing
 /coverage
