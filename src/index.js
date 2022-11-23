@@ -1,13 +1,35 @@
+// React imports
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+// Other libraries
+import $ from 'jquery';
+import Popper from '@popperjs/core';
+
+// CSS and Bootstrap
+import './index.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min';
+
+// Components
+import App from './App';
+
+// Create root
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
+// Render root
 root.render(
   <React.StrictMode>
     <App />
+    <a className="btn btn-primary"
+             data-bs-toggle="collapse"
+             href="#collapseExample"
+             role="button"
+             aria-expanded="false"
+             aria-controls="collapseExample">
+        Bootstrap button
+      </a>
   </React.StrictMode>
 );
 
