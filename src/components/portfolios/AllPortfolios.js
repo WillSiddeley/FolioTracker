@@ -24,18 +24,7 @@ export default class AllPortfolios extends React.Component {
         api.default.get(url).then(res => {
             // Sort into portfolio
             res.data.forEach(lot => {
-                console.log(lot.trade_date)
-                this.state.account.addAccountLot(
-                    lot.portfolio_id, 
-                    lot.portfolio_name, 
-                    lot.investment_id, 
-                    lot.ticker, 
-                    lot.type, 
-                    lot.lot_id, 
-                    lot.lot_quantity, 
-                    lot.price_paid, 
-                    lot.trade_date
-                );
+                this.state.account.addAccountLot(lot);
             });
             this.setState({ loading: false });
         });

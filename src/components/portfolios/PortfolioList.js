@@ -1,6 +1,6 @@
 import React from "react";
-import AddInvestModal from "./AddInvestModal";
 import InvestmentList from "./InvestmentList";
+import AddInvestModal from "../modals/AddInvestModal";
 
 export default class PortfolioList extends React.Component {
 

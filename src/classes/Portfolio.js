@@ -32,8 +32,15 @@ export default class Portfolio {
         return (this.hasInvestment(investId)) ? this.investments[investId] : new Investment();
     }
 
-    addInvestment(investId, investTicker, investType) {
-        if (!this.hasInvestment(investId)) this.investments[investId] = new Investment(investId, investTicker, investType);
+    addInvestment(lot) {
+        if (!this.hasInvestment(lot.invest_id)) {
+            this.investments[lot.invest_id] = new Investment(
+                lot.invest_id, 
+                lot.invest_type, 
+                lot.invest_ticker, 
+                lot.invest_fullname
+            );
+        }
     }
 
     

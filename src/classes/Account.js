@@ -9,102 +9,47 @@ export default class Account {
         this.portfolios = {}
     }
 
-    /**
-     * @returns {Object}
-     */
     getAccountPortfolios() {
         return this.portfolios;
     }
 
-    /**
-     * @param {Integer} portfolioId 
-     * @returns {Boolean}
-     */
-    accountHasPortfolio(portfolioId) {
-        return (portfolioId in this.portfolios);
+    accountHasPortfolio(lot) {
+        return (lot.portfolio_id in this.portfolios);
     }
 
-    /**
-     * @param {Integer} portfolioId 
-     * @returns {Portfolio}
-     */
-    getAccountPortfolio(portfolioId) {
-        return (this.accountHasPortfolio(portfolioId)) ? this.portfolios[portfolioId] : new Portfolio();
+    getAccountPortfolio(lot) {
+        return (this.accountHasPortfolio(lot)) ? this.portfolios[lot.portfolio_id] : new Portfolio();
     }
 
-    /**
-     * @param {Integer} portfolioId 
-     * @param {String} portfolioName 
-     */
-    addAccountPortfolio(portfolioId, portfolioName) {
-        if (!this.accountHasPortfolio(portfolioId)) this.portfolios[portfolioId] = new Portfolio(portfolioId, portfolioName);      
+    addAccountPortfolio(lot) {
+        if (!this.accountHasPortfolio(lot)) this.portfolios[lot.portfolio_id] = new Portfolio(lot.portfolio_id, lot.portfolio_name);      
     }
 
-    /**
-     * @param {Integer} portfolioId 
-     * @param {Integer} investId 
-     * @returns 
-     */
-    accountHasInvestment(portfolioId, investId) {
-        return this.getAccountPortfolio(portfolioId).hasInvestment(investId);
+    accountHasInvestment(lot) {
+        return this.getAccountPortfolio(lot).hasInvestment(lot.invest_id);
     }
 
-    /**
-     * @param {Integer} portfolioId 
-     * @param {Integer} investId 
-     * @returns {Investment}
-     */
-    getAccountInvestment(portfolioId, investId) {
-        return this.getAccountPortfolio(portfolioId).getInvestment(investId);
+    getAccountInvestment(lot) {
+        return this.getAccountPortfolio(lot).getInvestment(lot.invest_id);
     }
 
-    /**
-     * @param {Integer} portfolioId 
-     * @param {String} portfolioName 
-     * @param {Integer} investId 
-     * @param {String} investTicker 
-     * @param {String} investType 
-     */
-    addAccountInvestment(portfolioId, portfolioName, investId, investTicker, investType) {
-        if (!this.accountHasPortfolio(portfolioId)) this.addAccountPortfolio(portfolioId, portfolioName);
-        if (!this.accountHasInvestment(portfolioId, investId)) this.getAccountPortfolio(portfolioId).addInvestment(investId, investTicker, investType);
+    addAccountInvestment(lot) {
+        if (!this.accountHasPortfolio(lot)) this.addAccountPortfolio(lot);
+        if (!this.accountHasInvestment(lot)) this.getAccountPortfolio(lot).addInvestment(lot);
     }
 
-    /**
-     * @param {Integer} portfolioId 
-     * @param {Integer} investId 
-     * @param {Integer} lotId 
-     * @returns 
-     */
-    accountHasLot(portfolioId, investId, lotId) {
-        return this.getAccountInvestment(portfolioId, investId).hasLot(lotId);
+    accountHasLot(lot) {
+        return this.getAccountInvestment(lot).hasLot(lot.lot_id);
     }
 
-    /**
-     * @param {Integer} portfolioId 
-     * @param {Integer} investId 
-     * @param {Integer} lotId 
-     * @returns {Lot}
-     */
-    getAccountLot(portfolioId, investId, lotId) {
-        return this.getAccountInvestment(portfolioId, investId).getLot(lotId);
+    getAccountLot(lot) {
+        return this.getAccountInvestment(lot).getLot(lot.lot_id);
     }
 
-    /**
-     * @param {Integer} portfolioId 
-     * @param {String} portfolioName 
-     * @param {Integer} investId 
-     * @param {String} investTicker 
-     * @param {String} investType 
-     * @param {Integer} lotId 
-     * @param {Float} lotQuantity 
-     * @param {Float} lotPricePaid 
-     * @param {Date} lotTradeDate 
-     */
-    addAccountLot(portfolioId, portfolioName, investId, investTicker, investType, lotId, lotQuantity, lotPricePaid, lotTradeDate) {
-        if (!this.accountHasPortfolio(portfolioId)) this.addAccountPortfolio(portfolioId, portfolioName);
-        if (!this.accountHasInvestment(portfolioId, investId)) this.addAccountInvestment(portfolioId, portfolioName, investId, investTicker, investType);
-        if (!this.accountHasLot(portfolioId, investId, lotId)) this.getAccountInvestment(portfolioId, investId).addLot(lotId, lotQuantity, lotPricePaid, lotTradeDate);
+    addAccountLot(lot) {
+        if (!this.accountHasPortfolio(lot)) this.addAccountPortfolio(lot);
+        if (!this.accountHasInvestment(lot)) this.addAccountInvestment(lot);
+        if (!this.accountHasLot(lot)) this.getAccountInvestment(lot).addLot(lot);
     }
 
 }

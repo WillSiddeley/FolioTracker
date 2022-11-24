@@ -1,5 +1,4 @@
 import React from "react";
-import Portfolio from "../../classes/Investment";
 import LotList from "./LotList";
 import api from "../../api/api";
 
@@ -13,6 +12,7 @@ export default class InvestmentList extends React.Component {
             investment: props.investment,
             // Helper variables
             ticker: props.investment.getTicker(),
+            fullname: props.investment.getFullname(),
             quantity: props.investment.getQuantity(),
             averagePrice: props.investment.getAveragePrice(),
             amountBought: props.investment.getAmountBought(),

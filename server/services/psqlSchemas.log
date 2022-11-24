@@ -43,3 +43,39 @@ CREATE TABLE invest.lot (
     price_paid MONEY
 );
 
+CREATE OR REPLACE FUNCTION get_account_holdings(userId INTEGER)
+    RETURNS TABLE (
+        portfolio_id INTEGER,
+        portfolio_name TEXT,
+        invest_id INTEGER,
+        invest_type TEXT,
+        invest_ticker TEXT,
+        invest_fullname TEXT,
+        invest_quantity FLOAT,
+        lot_id INTEGER,
+        lot_quantity FLOAT,
+        lot_price_paid FLOAT,
+        lot_trade_date TEXT
+    )
+AS
+$$
+SELECT 
+    p.id AS portfolio_id, 
+    p.name AS portfolio_name, 
+    i.id AS invest_id, 
+    it.name AS invest_type, 
+    tn.symbol AS invest_ticker,
+    tn.name AS invest_fullname, 
+    i.quantity AS invest_quantity, 
+    l.id AS lot_id, 
+    l.quantity AS lot_quantity, 
+    l.price_paid::numeric::float8 AS lot_price_paid, 
+    l.trade_date AS lot_trade_date
+FROM invest.portfolio p
+JOIN invest.investment i ON i.portfolio_ref = p.id
+JOIN invest.lot l ON l.investment_ref = i.id
+JOIN info.tickers tn ON tn.id = i.ticker_ref
+JOIN info.investment_type it ON it.id = i.investment_type_ref
+WHERE p.user_ref = $1
+$$
+LANGUAGE SQL;

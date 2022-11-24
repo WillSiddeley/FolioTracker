@@ -7,12 +7,13 @@ export default class Investment {
      * @param {String} type 
      * @param {Integer} quantity 
      */
-    constructor(id = -1, ticker = "", type = "") {
-        // Id and ticker
+    constructor(id = -1, type = "", ticker = "", fullname = "") {
+        // Set id
         this.id = id;
-        this.ticker = ticker;
         // What kind of investment
         this.type = type;
+        this.ticker = ticker;
+        this.fullname = fullname;
         // Quantity and prices
         this.quantity = 0;
         this.amtBought = 0;
@@ -25,12 +26,16 @@ export default class Investment {
         return this.id;
     }
 
+    getType() {
+        return this.type;
+    }
+
     getTicker() {
         return this.ticker;
     }
 
-    getType() {
-        return this.type;
+    getFullname() {
+        return this.fullname;
     }
 
     getQuantity() {
@@ -57,14 +62,19 @@ export default class Investment {
         return (this.hasLot(lotId)) ? this.lots[lotId] : new Lot();
     }
 
-    addLot(lotId, lotQuantity, lotPricePaid, lotTradeDate) {
-        if (!this.hasLot(lotId)) {
+    addLot(lot) {
+        if (!this.hasLot(lot.lot_id)) {
             // Add the lot to the map of lots
-            this.lots[lotId] = new Lot(lotId, lotQuantity, lotPricePaid, lotTradeDate);
+            this.lots[lot.lot_id] = new Lot(
+                lot.lot_id, 
+                lot.lot_quantity, 
+                lot.lot_price_paid, 
+                lot.lot_trade_date
+            );
             // Update the quantities to be total
-            this.quantity += lotQuantity;
+            this.quantity += lot.lot_quantity;
             // Update the price metrics of the investment
-            this.amtBought += (lotQuantity * lotPricePaid);
+            this.amtBought += (lot.lot_quantity * lot.lot_price_paid);
             this.avgPrice = (this.amtBought / this.quantity);
         }
     }
