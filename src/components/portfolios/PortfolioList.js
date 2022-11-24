@@ -1,5 +1,5 @@
 import React from "react";
-import Portfolio from "../../classes/Portfolio";
+import AddInvestModal from "./AddInvestModal";
 import InvestmentList from "./InvestmentList";
 
 export default class PortfolioList extends React.Component {
@@ -41,7 +41,15 @@ export default class PortfolioList extends React.Component {
                         </tr>
                     </thead>
                     { this.renderInvestments() }
+                    <tbody>
+                        <tr>
+                            <td colSpan={7}>
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addInvestModal">Add a new entry</button>
+                            </td>
+                        </tr>
+                    </tbody>
                 </table>
+                <AddInvestModal/>
             </div>
         );
     }
