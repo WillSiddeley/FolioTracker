@@ -12,7 +12,7 @@ export default class Lot {
         this.id = id;
         this.quantity = quantity;
         this.pricePaid = pricePaid;
-        this.tradeDate = tradeDate;
+        this.tradeDate = new Date(tradeDate);
     }
 
     getQuantity() {
@@ -24,7 +24,7 @@ export default class Lot {
     }
 
     getTradeDate() {
-        return this.tradeDate;
+        return this.tradeDate.toDateString();
     }
 
 }

@@ -24,6 +24,7 @@ export default class AllPortfolios extends React.Component {
         api.default.get(url).then(res => {
             // Sort into portfolio
             res.data.forEach(lot => {
+                console.log(lot.trade_date)
                 this.state.account.addAccountLot(
                     lot.portfolio_id, 
                     lot.portfolio_name, 

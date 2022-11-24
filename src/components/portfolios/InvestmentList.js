@@ -62,6 +62,10 @@ export default class InvestmentList extends React.Component {
     renderLotHead = () => {
         return (
             <tr>
+                <td>Tx Type</td>
+                <td colSpan={2}>Quantity</td>
+                <td colSpan={2}>Price Paid</td>
+                <td colSpan={2}>Trade Date</td>
             </tr>
         )
     }
@@ -83,12 +87,4 @@ export default class InvestmentList extends React.Component {
             </tbody>
         )
     }
-
-    /*{ this.state.dropdown ? this.renderLots() : null }
-        <div className="investListDropdown">
-                <button onClick={this.handleOpen}>v</button>
-                { this.state.dropdown ? (<ul className="investListMenu">{ this.renderLots() }</ul>) : null }
-        </div>
-    */
-
 }

@@ -15,7 +15,8 @@ exports.getPortfolios = function(req, res) {
         i.quantity AS total_quantity, 
         l.id AS lot_id, 
         l.quantity AS lot_quantity, 
-        l.price_paid::numeric::float8
+        l.price_paid::numeric::float8, 
+        l.trade_date AS trade_date
     FROM invest.portfolio p
     JOIN invest.investment i ON i.portfolio_ref = p.id
     JOIN invest.lot l ON l.investment_ref = i.id

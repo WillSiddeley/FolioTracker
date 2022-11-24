@@ -1,20 +1,28 @@
 import React from "react";
-import Lot from "../../classes/Lot";
 
 export default class LotList extends React.Component {
 
     constructor(props) {
         super(props)
         this.state = {
-            lot: props.lot
+            lot: props.lot,
+            quantity: props.lot.getQuantity(),
+            pricePaid: props.lot.getPricePaid(),
+            tradeDate: props.lot.getTradeDate()
         }
-        this.lot = this.state.lot
+    }
+
+    getTxType = () => {
+        return (this.state.quantity > 0 ? "Buy" : "Sell");
     }
 
     render() {
         return (
             <tr>
-                <td colSpan={7}>Quantity - {this.lot.getQuantity()}, Price Paid - {this.lot.getPricePaid()}</td>
+                <td>{ this.getTxType() }</td>
+                <td colSpan={2}>{ this.state.quantity  }</td>
+                <td colSpan={2}>{ this.state.pricePaid }</td>
+                <td colSpan={2}>{ this.state.tradeDate }</td>
             </tr>
         )
     }
