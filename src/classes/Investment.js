@@ -33,6 +33,18 @@ export default class Investment {
         return this.type;
     }
 
+    getQuantity() {
+        return this.quantity;
+    }
+
+    getAmountBought() {
+        return this.amtBought;
+    }
+
+    getAveragePrice() {
+        return this.avgPrice;
+    }
+
     getLots() {
         return this.lots;
     }

@@ -17,8 +17,6 @@ export default class PortfolioList extends React.Component {
         var investKeys = Object.keys(investHash);
         // Loop over each investment and add the component to the list
         investKeys.forEach((item, index) => {
-            console.log("investhash")
-            console.log(investHash[item])
             investList.push(<InvestmentList key={item} investment={investHash[item]}/>);
         });
         return investList;
@@ -27,9 +25,24 @@ export default class PortfolioList extends React.Component {
     render = () => {
         return (
             <div>
-                <h3>Portfolio - {this.state.portfolio.getName()}</h3>
-                { this.renderInvestments() }
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col" colSpan={7}>Portfolio - {this.state.portfolio.getName()}</th>
+                        </tr>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Ticker</th>
+                            <th scope="col">Market Value</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Average Price</th>
+                            <th scope="col">Last Price</th>
+                            <th scope="col">Unrealized P/L</th>
+                        </tr>
+                    </thead>
+                    { this.renderInvestments() }
+                </table>
             </div>
-        )
+        );
     }
 }

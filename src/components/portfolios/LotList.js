@@ -13,8 +13,11 @@ export default class LotList extends React.Component {
 
     render() {
         return (
-            <p>Quantity - {this.lot.getQuantity()}, Price Paid - {this.lot.getPricePaid()}</p>
+            <tr>
+                <td colSpan={7}>Quantity - {this.lot.getQuantity()}, Price Paid - {this.lot.getPricePaid()}</td>
+            </tr>
         )
     }
 
 }
+
