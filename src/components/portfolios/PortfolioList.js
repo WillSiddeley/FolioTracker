@@ -25,7 +25,7 @@ export default class PortfolioList extends React.Component {
     render = () => {
         return (
             <div>
-                <table class="table">
+                <table className="table">
                     <thead>
                         <tr>
                             <th scope="col" colSpan={7}>Portfolio - {this.state.portfolio.getName()}</th>
@@ -44,12 +44,12 @@ export default class PortfolioList extends React.Component {
                     <tbody>
                         <tr>
                             <td colSpan={7}>
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addInvestModal">Add a new entry</button>
+                                <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addInvestModal">Add a new entry</button>
                             </td>
                         </tr>
                     </tbody>
                 </table>
-                <AddInvestModal/>
+                <AddInvestModal portfolioId={this.state.portfolio.getId()}/>
             </div>
         );
     }

@@ -10,5 +10,21 @@ exports.getPortfolios = function(req, res) {
     }).catch(err => {
         console.log(err);
         res.status(500).send();
-    })
+    });
+}
+
+// Get investment types
+exports.getInvestmentTypes = function(req, res) {
+    const queryString = `SELECT id, type, name FROM info.investment_type;`
+    pool.query(queryString).then(queryRes => {
+        res.json(queryRes.rows);
+    }).catch(err => {
+        console.log(err);
+        res.status(500).send();
+    });
+}
+
+exports.addInvestment = function(req, res) {
+    console.log(req.body);
+
 }

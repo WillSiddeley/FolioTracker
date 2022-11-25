@@ -18,6 +18,10 @@ const portfolios = require("./routers/portfolios");
 // GET Methods
 app.get('/api/v1/quotes/getPrice/:ticker', quotes.getPrice);
 app.get('/api/v1/portfolios/:userId', portfolios.getPortfolios);
+app.get('/api/v1/portfolios/invest/types', portfolios.getInvestmentTypes);
+
+// POST Methods
+app.post('/api/v1/portfolios/invest/addInvestment', portfolios.addInvestment);
 
 // Open Port
 app.listen(port, () => log.logToConsole("App listening on port", port));
