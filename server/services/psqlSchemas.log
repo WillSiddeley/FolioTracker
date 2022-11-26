@@ -77,3 +77,22 @@ JOIN info.investment_type it ON it.id = i.investment_type_ref
 WHERE p.user_ref = $1
 $$
 LANGUAGE SQL;
+
+CREATE OR REPLACE FUNCTION add_new_investment(portfolio_id, INTEGER, ticker TEXT, type TEXT, amount INTEGER, price MONEY, trade_date DATE)
+    RETURNS INTEGER
+AS
+$$
+-- Get the investment id
+DECLARE @invest_ref INTEGER
+-- Add the ticker if it doesn't already exist
+DECLARE @ticker_ref INTEGER
+-- Get the investment type
+DECLARE @type_ref INTEGER
+
+
+
+
+-- Find if the investment already exists
+SELECT @invest_ref := 
+
+$$

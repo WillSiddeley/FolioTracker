@@ -41,29 +41,31 @@ export default class AddInvestModal extends React.Component {
                             <h1 className="modal-title fs-5">Add New Investment</h1>
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <form action={`${WebConstants.websiteAPI}/api/v1/portfolios/invest/addInvestment`} method="POST">
+                        <form action={`${WebConstants.websiteAPI}/api/v1/portfolios/invest/addInvestment`} method="post">
                             <div className="modal-body">
+                                { /* Input hidden fields for additional data to send to server */ }
+                                <input name="portfolioId" type="hidden" value={ this.state.portfolioId } />
                                 <div className="form-group">
                                     <label htmlFor="inputTicker">Ticker</label>
-                                    <input name="ticker" type="text" className="form-control" id="inputTicker" aria-describedby="tickerHelp" placeholder="Enter a ticker"/>
+                                    <input name="ticker" type="text" className="form-control" id="inputTicker" aria-describedby="tickerHelp" placeholder="Enter a ticker" required/>
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="inputType">Investment Type</label>
-                                    <select name="type" className="form-control" id="inputType">
+                                    <select name="type" className="form-control" id="inputType" required>
                                         { this.state.investTypes }
                                     </select>
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="inputAmount">Amount</label>
-                                    <input name="amount" type="number" className="form-control" id="inputAmount" aria-describedby="amountHelp" placeholder="Enter amount bought"/>
+                                    <input name="amount" type="number" className="form-control" id="inputAmount" aria-describedby="amountHelp" placeholder="Enter amount bought" required/>
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="inputPrice">Price</label>
-                                    <input name="price" type="decimal" className="form-control" id="inputPrice" aria-describedby="tickerPrice" placeholder="Enter the price per unit"/>
+                                    <input name="price" type="decimal" className="form-control" id="inputPrice" aria-describedby="tickerPrice" placeholder="Enter the price per unit" required/>
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="inputDate">Trade Date</label>
-                                    <input name="tradeDate" type="date" className="form-control" id="inputDate" aria-describedby="dateHelp"/>
+                                    <input name="tradeDate" type="date" className="form-control" id="inputDate" aria-describedby="dateHelp" required/>
                                 </div>
                             </div>
                             <div className="modal-footer">

@@ -25,6 +25,23 @@ exports.getInvestmentTypes = function(req, res) {
 }
 
 exports.addInvestment = function(req, res) {
-    console.log(req.body);
-
+    var portfolioId = req.body.portfolioId;
+    var ticker = req.body.ticker;
+    var type = req.body.type;
+    var amount = req.body.amount;
+    var price = req.body.price;
+    var tradeDate = req.body.tradeDate;
+    const queryString = `SELECT id FROM add_new_investment(
+        ${portfolioId},
+        '${ticker}', 
+        '${type}', 
+        ${amount}, 
+        ${price}, 
+        '${tradeDate}')`;
+    pool.query(queryString).then(queryRes => {
+        res.json(queryRes.rows);
+    }).catch(err => {
+        console.log(err);
+        res.status(500).send();
+    });
 }
