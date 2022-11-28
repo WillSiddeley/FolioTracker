@@ -12,14 +12,9 @@ export default class LotList extends React.Component {
         }
     }
 
-    getTxType = () => {
-        return (this.state.quantity > 0 ? "Buy" : "Sell");
-    }
-
     render() {
         return (
             <tr>
-                <td>{ this.getTxType() }</td>
                 <td colSpan={2}>{ this.state.quantity  }</td>
                 <td colSpan={2}>{ this.state.pricePaid }</td>
                 <td colSpan={2}>{ this.state.tradeDate }</td>

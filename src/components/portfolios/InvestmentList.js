@@ -62,7 +62,6 @@ export default class InvestmentList extends React.Component {
     renderLotHead = () => {
         return (
             <tr>
-                <td>Tx Type</td>
                 <td colSpan={2}>Quantity</td>
                 <td colSpan={2}>Price Paid</td>
                 <td colSpan={2}>Trade Date</td>
@@ -73,8 +72,7 @@ export default class InvestmentList extends React.Component {
     render = () => {
         return (
             <tbody>
-                <tr>
-                    <td><button onClick={ () => this.setState({ dropdown: !this.state.dropdown }) }>v</button></td>
+                <tr onClick={ () => this.setState({ dropdown: !this.state.dropdown }) } className="lightHover">
                     <td>{   this.state.ticker         }</td>
                     <td>{   this.state.marketValue    }</td>
                     <td>{   this.state.quantity       }</td>

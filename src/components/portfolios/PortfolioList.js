@@ -28,10 +28,9 @@ export default class PortfolioList extends React.Component {
                 <table className="table">
                     <thead>
                         <tr>
-                            <th scope="col" colSpan={7}>Portfolio - {this.state.portfolio.getName()}</th>
+                            <th scope="col" colSpan={6}>Portfolio - {this.state.portfolio.getName()}</th>
                         </tr>
                         <tr>
-                            <th scope="col">#</th>
                             <th scope="col">Ticker</th>
                             <th scope="col">Market Value</th>
                             <th scope="col">Quantity</th>
@@ -43,7 +42,7 @@ export default class PortfolioList extends React.Component {
                     { this.renderInvestments() }
                     <tbody>
                         <tr>
-                            <td colSpan={7}>
+                            <td colSpan={6}>
                                 <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addInvestModal">Add a new entry</button>
                             </td>
                         </tr>
