@@ -78,7 +78,25 @@ WHERE p.user_ref = $1
 $$
 LANGUAGE SQL;
 
-CREATE OR REPLACE FUNCTION add_new_investment(portfolio_id, INTEGER, ticker TEXT, type TEXT, amount INTEGER, price MONEY, trade_date DATE)
+CREATE OR REPLACE FUNCTION get_or_add_ticker(newSym VARCHAR(10))
+    RETURNS INTEGER
+AS
+$$
+DECLARE ticker_id INTEGER;
+BEGIN
+    LOCK TABLE info.tickers IN SHARE ROW EXCLUSIVE MODE;
+    INSERT INTO info.tickers (symbol, name)
+    SELECT newSym, NULL 
+        WHERE NOT EXISTS (
+            SELECT * FROM info.tickers WHERE symbol = newSym
+        )
+        RETURNING id INTO ticker_id;
+        RETURN ticker_id;
+END
+$$
+LANGUAGE PLPGSQL;
+
+CREATE OR REPLACE FUNCTION add_new_investment(portfolio_id INTEGER, ticker TEXT, type TEXT, amount INTEGER, price MONEY, trade_date DATE)
     RETURNS INTEGER
 AS
 $$
