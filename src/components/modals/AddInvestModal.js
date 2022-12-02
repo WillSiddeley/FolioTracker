@@ -61,7 +61,7 @@ export default class AddInvestModal extends React.Component {
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="inputPrice">Price</label>
-                                    <input name="price" type="decimal" className="form-control" id="inputPrice" aria-describedby="tickerPrice" placeholder="Enter the price per unit" required/>
+                                    <input name="price" type="decimal" className="form-control" id="inputPrice" aria-describedby="priceHelp" placeholder="Enter the price per unit" required/>
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="inputDate">Trade Date</label>
