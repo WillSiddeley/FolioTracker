@@ -1,6 +1,8 @@
 import React from 'react';
 import Account from "../../classes/Account";
-import PortfolioList from "./PortfolioList"
+import PortfolioList from "./PortfolioList";
+import HoldingsChart from "./HoldingsChart";
+
 const api = require("../../api/api");
 
 export default class AllPortfolios extends React.Component {
@@ -48,6 +50,7 @@ export default class AllPortfolios extends React.Component {
         else {
             return (
                 <div>
+                    <HoldingsChart account={ this.state.account }/>
                     { this.renderPortfolio() }
                 </div>
             )
