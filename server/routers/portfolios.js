@@ -1,10 +1,7 @@
 const pool = require("../services/pg");
 const log = require("../services/log");
 
-// Get all the users portfolios
-exports.getPortfolios = function(req, res) {
-    const userId = req.params.userId;
-    const queryString = `SELECT * FROM get_account_holdings(${req.params.userId});`
+function poolQuery(res, queryString) {
     pool.query(queryString).then(queryRes => {
         res.json(queryRes.rows);
     }).catch(err => {
@@ -13,15 +10,14 @@ exports.getPortfolios = function(req, res) {
     });
 }
 
+// Get all the users portfolios
+exports.getPortfolios = function(req, res) {
+    poolQuery(res, `SELECT * FROM get_account_holdings(${req.params.userId});`);
+}
+
 // Get investment types
 exports.getInvestmentTypes = function(req, res) {
-    const queryString = `SELECT id, type, name FROM info.investment_type;`
-    pool.query(queryString).then(queryRes => {
-        res.json(queryRes.rows);
-    }).catch(err => {
-        console.log(err);
-        res.status(500).send();
-    });
+    poolQuery(res, `SELECT id, type, name FROM info.investment_type;`);
 }
 
 exports.addInvestment = function(req, res) {

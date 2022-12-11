@@ -43,19 +43,21 @@ CREATE TABLE invest.lot (
     price_paid MONEY
 );
 
+CREATE TYPE account_holdings AS (
+    portfolio_id INTEGER,
+    portfolio_name TEXT,
+    invest_id INTEGER,
+    invest_type TEXT,
+    invest_ticker TEXT,
+    invest_fullname TEXT,
+    lot_id INTEGER,
+    lot_quantity FLOAT,
+    lot_price_paid FLOAT,
+    lot_trade_date TEXT
+);
+
 CREATE OR REPLACE FUNCTION get_account_holdings(userId INTEGER)
-    RETURNS TABLE (
-        portfolio_id INTEGER,
-        portfolio_name TEXT,
-        invest_id INTEGER,
-        invest_type TEXT,
-        invest_ticker TEXT,
-        invest_fullname TEXT,
-        lot_id INTEGER,
-        lot_quantity FLOAT,
-        lot_price_paid FLOAT,
-        lot_trade_date TEXT
-    )
+    RETURNS SETOF account_holdings
 AS
 $$
 SELECT 
@@ -74,43 +76,97 @@ JOIN invest.investment i ON i.portfolio_ref = p.id
 JOIN invest.lot l ON l.investment_ref = i.id
 JOIN info.tickers tn ON tn.id = i.ticker_ref
 JOIN info.investment_type it ON it.id = i.investment_type_ref
-WHERE p.user_ref = $1
+WHERE p.user_ref = $1;
 $$
 LANGUAGE SQL;
 
-CREATE OR REPLACE FUNCTION get_or_add_ticker(newSym VARCHAR(10))
+CREATE OR REPLACE FUNCTION get_or_add_ticker(symbol_name VARCHAR(10))
     RETURNS INTEGER
 AS
 $$
 DECLARE ticker_id INTEGER;
 BEGIN
+    -- Lock table
     LOCK TABLE info.tickers IN SHARE ROW EXCLUSIVE MODE;
-    INSERT INTO info.tickers (symbol, name)
-    SELECT newSym, NULL 
-        WHERE NOT EXISTS (
-            SELECT * FROM info.tickers WHERE symbol = newSym
-        )
-        RETURNING id INTO ticker_id;
-        RETURN ticker_id;
+    -- Look for the ID
+    SELECT id INTO ticker_id FROM info.tickers WHERE symbol = symbol_name;
+    -- If the ID does not exist, insert it into the table
+    IF ticker_id IS NULL THEN
+        INSERT INTO info.tickers (symbol, name) VALUES (symbol_name, NULL) RETURNING id INTO ticker_id;
+    END IF;
+    -- Return ticker ID
+    RETURN ticker_id;
 END
 $$
 LANGUAGE PLPGSQL;
 
-CREATE OR REPLACE FUNCTION add_new_investment(portfolio_id INTEGER, ticker TEXT, type TEXT, amount INTEGER, price MONEY, trade_date DATE)
+CREATE OR REPLACE FUNCTION get_or_add_portfolio(portfolio_name VARCHAR(255), user_id INTEGER)
     RETURNS INTEGER
 AS
 $$
--- Get the investment id
-DECLARE @invest_ref INTEGER
--- Add the ticker if it doesn't already exist
-DECLARE @ticker_ref INTEGER
--- Get the investment type
-DECLARE @type_ref INTEGER
-
-
-
-
--- Find if the investment already exists
-SELECT @invest_ref := 
-
+DECLARE portfolio_id INTEGER;
+BEGIN
+    -- Lock table
+    LOCK TABLE invest.portfolio IN SHARE ROW EXCLUSIVE MODE;
+    -- Look for the ID
+    SELECT id INTO portfolio_id FROM invest.portfolio WHERE name = portfolio_name AND user_ref = user_id;
+    -- If the ID does not exist, insert it into the table
+    IF portfolio_id IS NULL THEN
+        INSERT INTO invest.portfolio (name, user_ref) VALUES (portfolio_name, user_id) RETURNING id INTO portfolio_id;
+    END IF;
+    -- Return portfolio ID
+    RETURN portfolio_id;
+END
 $$
+LANGUAGE PLPGSQL;
+
+CREATE OR REPLACE FUNCTION get_or_add_investment(portfolio_id INTEGER, ticker_id INTEGER, invest_type_id INTEGER)
+    RETURNS INTEGER
+AS
+$$
+DECLARE investment_id INTEGER;
+BEGIN
+    -- Lock table
+    LOCK TABLE invest.investment IN SHARE ROW EXCLUSIVE MODE;
+    -- Look for the ID
+    SELECT id INTO investment_id FROM invest.investment WHERE portfolio_ref = portfolio_id AND ticker_ref = ticker_id AND investment_type_ref = invest_type_id;
+    -- If the ID does not exist, insert it into the table
+    IF investment_id IS NULL THEN
+        INSERT INTO invest.investment (portfolio_ref, ticker_ref, investment_type_ref) VALUES (portfolio_id, ticker_id, invest_type_id) RETURNING id INTO investment_id;
+    END IF;
+    -- Return investment ID
+    RETURN investment_id;
+END
+$$
+LANGUAGE PLPGSQL;
+
+CREATE OR REPLACE FUNCTION get_or_add_lot(investment_id INTEGER, _quantity FLOAT, _price_paid MONEY, _trade_date DATE)
+    RETURNS INTEGER
+AS
+$$
+DECLARE lot_id INTEGER;
+BEGIN
+    -- Lock table
+    LOCK TABLE invest.lot IN SHARE ROW EXCLUSIVE MODE;
+    -- Look for the ID
+    SELECT id INTO lot_id FROM invest.lot WHERE investment_ref = investment_id AND quantity = _quantity AND price_paid = _price_paid AND trade_date = _trade_date;
+    -- If the ID does not exist, insert it into the table
+    IF lot_id IS NULL THEN
+        INSERT INTO invest.lot (investment_ref, quantity, price_paid, trade_date) VALUES (investment_id, _quantity, _price_paid, _trade_date) RETURNING id INTO lot_id;
+    END IF;
+    -- Return lot ID
+    RETURN lot_id;
+END
+$$
+LANGUAGE PLPGSQL;
+
+CREATE OR REPLACE FUNCTION add_new_invest_lot(portfolio_id INTEGER, symbol_name TEXT, invest_type_ref TEXT, quantity INTEGER, price_paid MONEY, trade_date DATE)
+    RETURNS INTEGER
+AS
+$$
+DECLARE
+BEGIN
+
+END
+$$
+LANGUAGE PLPGSQL;
