@@ -78,7 +78,7 @@ JOIN info.tickers tn ON tn.id = i.ticker_ref
 JOIN info.investment_type it ON it.id = i.investment_type_ref
 WHERE p.user_ref = $1;
 $$
-LANGUAGE SQL;
+LANGUAGE PLPGSQL;
 
 CREATE OR REPLACE FUNCTION get_or_add_ticker(symbol_name VARCHAR(10))
     RETURNS INTEGER
