@@ -78,20 +78,62 @@ WHERE p.user_ref = $1
 $$
 LANGUAGE SQL;
 
-CREATE OR REPLACE FUNCTION get_or_add_ticker(newSym VARCHAR(10))
+CREATE OR REPLACE FUNCTION get_or_add_ticker(new_ticker_name VARCHAR(10))
     RETURNS INTEGER
 AS
 $$
 DECLARE ticker_id INTEGER;
 BEGIN
+    -- Lock table
     LOCK TABLE info.tickers IN SHARE ROW EXCLUSIVE MODE;
-    INSERT INTO info.tickers (symbol, name)
-    SELECT newSym, NULL 
-        WHERE NOT EXISTS (
-            SELECT * FROM info.tickers WHERE symbol = newSym
-        )
-        RETURNING id INTO ticker_id;
-        RETURN ticker_id;
+    -- Look for the ID
+    SELECT id INTO ticker_id FROM info.tickers WHERE symbol = new_ticker_name;
+    -- If the ID does not exist, insert it into the table
+    IF ticker_id IS NULL THEN
+        INSERT INTO info.tickers (symbol, name) VALUES (new_ticker_name, NULL) RETURNING id INTO ticker_id;
+    END IF;
+    -- Return ticker ID
+    RETURN ticker_id;
+END
+$$
+LANGUAGE PLPGSQL;
+
+CREATE OR REPLACE FUNCTION get_or_add_portfolio(new_portfolio_name VARCHAR(255), new_user_ref INTEGER)
+    RETURNS INTEGER
+AS
+$$
+DECLARE portfolio_id INTEGER;
+BEGIN
+    -- Lock table
+    LOCK TABLE invest.portfolio IN SHARE ROW EXCLUSIVE MODE;
+    -- Look for the ID
+    SELECT id INTO portfolio_id FROM invest.portfolio WHERE name = new_portfolio_name AND user_ref = new_user_ref;
+    -- If the ID does not exist, insert it into the table
+    IF portfolio_id IS NULL THEN
+        INSERT INTO invest.portfolio (name, user_ref) VALUES (new_portfolio_name, new_user_ref) RETURNING id INTO portfolio_id;
+    END IF;
+    -- Return portfolio ID
+    RETURN portfolio_id;
+END
+$$
+LANGUAGE PLPGSQL;
+
+CREATE OR REPLACE FUNCTION get_or_add_investment(portfolio_id INTEGER, ticker_id INTEGER, invest_type_id INTEGER)
+    RETURNS INTEGER
+AS
+$$
+DECLARE investment_id INTEGER;
+BEGIN
+    -- Lock table
+    LOCK TABLE invest.investment IN SHARE ROW EXCLUSIVE MODE;
+    -- Look for the ID
+    SELECT id INTO investment_id FROM invest.investment WHERE portfolio_ref = portfolio_id AND ticker_ref = ticker_id AND investment_type_ref = invest_type_id;
+    -- If the ID does not exist, insert it into the table
+    IF investment_id IS NULL THEN
+        INSERT INTO invest.investment (portfolio_ref, ticker_ref, investment_type_ref) VALUES (portfolio_id, ticker_id, invest_type_id) RETURNING id INTO investment_id;
+    END IF;
+    -- Return investment ID
+    RETURN investment_id;
 END
 $$
 LANGUAGE PLPGSQL;
