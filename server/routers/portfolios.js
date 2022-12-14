@@ -22,22 +22,11 @@ exports.getInvestmentTypes = function(req, res) {
 
 exports.addInvestment = function(req, res) {
     var portfolioId = req.body.portfolioId;
-    var ticker = req.body.ticker;
-    var type = req.body.type;
-    var amount = req.body.amount;
-    var price = req.body.price;
-    var tradeDate = req.body.tradeDate;
-    const queryString = `SELECT id FROM add_new_investment(
-        ${portfolioId},
-        '${ticker}', 
-        '${type}', 
-        ${amount}, 
-        ${price}, 
-        '${tradeDate}')`;
-    pool.query(queryString).then(queryRes => {
-        res.json(queryRes.rows);
-    }).catch(err => {
-        console.log(err);
-        res.status(500).send();
-    });
+    var ticker      = req.body.inputTicker;
+    var type        = req.body.inputType;
+    var amount      = req.body.inputAmount;
+    var price       = req.body.inputPrice;
+    var tradeDate   = req.body.inputDate;
+    console.log(portfolioId, ticker, type, amount, price, tradeDate);
+    poolQuery(res, `SELECT * FROM add_new_invest_lot(${portfolioId}, '${ticker}', ${type}, ${amount}, '$${price}', '${tradeDate}')`)
 }
