@@ -23,9 +23,17 @@ function getCaller() {
     return fileName;
 }
 
+/**
+ * Message format - [time TAG] MESSAGE: VALUE
+ * @param {String} message A string to display before the colon (:)
+ * @param {String} value A string to display after the color (:)
+ * @param {String} tag A tag that goes next to the timestamp, should be either INFO, WARN, ERROR
+ */
 module.exports.logToConsole = function (message, value, tag = "INFO") {
     var call = getCaller();
     var date = new Date();
+    // Strip newlines
+    value = value.toString().replace('\n', '');
     if (tag == "ERROR") {
         console.log(`[${date.toLocaleString()} ERROR] Error in ${call}!`);
     }

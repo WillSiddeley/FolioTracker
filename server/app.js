@@ -20,6 +20,7 @@ const portfolios = require("./routers/portfolios");
 app.get('/api/v1/quotes/getPrice/:ticker', quotes.getPrice);
 app.get('/api/v1/portfolios/:userId', portfolios.getPortfolios);
 app.get('/api/v1/portfolios/invest/types', portfolios.getInvestmentTypes);
+app.get('/api/v1/portfolios/holdings/chart', portfolios.getHoldingsChart);
 
 // POST Methods
 app.post('/api/v1/portfolios/invest/addInvestment', portfolios.addInvestment);

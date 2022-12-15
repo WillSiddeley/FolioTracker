@@ -52,7 +52,7 @@ export default class AllPortfolios extends React.Component {
         else {
             return (
                 <div>
-                    <HoldingsChart account={ this.state.account } accountLabels={ this.state.account.getAccountLabels() } accountData={ this.state.account.getAccountData() }/>
+                    <HoldingsChart account={ this.state.account } />
                     { this.renderPortfolio() }
                 </div>
             )

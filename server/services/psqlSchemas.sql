@@ -33,7 +33,8 @@ CREATE TABLE invest.investment (
     portfolio_ref INTEGER, CONSTRAINT portfolio_ref_fk FOREIGN KEY(portfolio_ref) REFERENCES invest.portfolio(id) ON DELETE CASCADE ON UPDATE CASCADE,
     ticker_ref INTEGER, CONSTRAINT ticker_ref_fk FOREIGN KEY(ticker_ref) REFERENCES info.tickers(id),
     investment_type_ref INTEGER, CONSTRAINT investment_type_ref_fk FOREIGN KEY(investment_type_ref) REFERENCES info.investment_type(id),
-    quantity FLOAT
+    quantity FLOAT,
+    last_price MONEY
 );
 
 CREATE TABLE invest.lot (
@@ -199,6 +200,27 @@ BEGIN
     SELECT id INTO lot_ref FROM get_or_add_lot(invest_ref, quantity, price_paid, trade_date) AS id;
     -- Return lot ID
     RETURN lot_ref;
+END
+$$
+LANGUAGE PLPGSQL;
+
+CREATE OR REPLACE FUNCTION update_last_price(symbol_name TEXT, new_price MONEY)
+    RETURNS BOOLEAN
+AS
+$$
+DECLARE ticker_id INTEGER;
+DECLARE success BOOLEAN;
+BEGIN
+    -- Get the ticker ID
+    SELECT id FROM info.tickers WHERE symbol = symbol_name LIMIT 1 INTO ticker_id;
+    -- If we cannot find an associated ticker, return false
+    IF ticker_id IS NULL THEN
+        RETURN FALSE;
+    ELSE
+        UPDATE invest.investment SET last_price = new_price WHERE ticker_ref = ticker_id;
+    END IF;
+    -- Return true indicating success
+    RETURN TRUE;
 END
 $$
 LANGUAGE PLPGSQL;
