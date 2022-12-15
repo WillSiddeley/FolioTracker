@@ -62,8 +62,11 @@ export default class AddInvestModal extends React.Component {
             inputAmount:    this.state.form.inputAmount,
             inputPrice:     this.state.form.inputPrice,
             inputDate:      this.state.form.inputDate
-        }).then(res => {
-            console.log(res);
+        }).then(_ => {
+            // Rerender portfolio
+            this.props.refresh();
+        }).catch(err => {
+            console.log(err);
         });
     }
 

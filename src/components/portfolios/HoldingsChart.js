@@ -6,15 +6,22 @@ Chart.register(ArcElement, Tooltip, Legend)
 
 export default class HoldingsChart extends React.PureComponent {
 
+    emptyData = {
+        labels: [],
+            datasets: [{
+                data: []
+            }
+        ]
+    }
+
     constructor(props) {
         super(props);
         this.state = {
             account: props.account,
-            isDataSet: false,
             data: {
-                labels: [],
+                labels: props.accountLabels,
                 datasets: [{
-                    data: []
+                    data: props.accountData
                 }]
             },
             options: {
@@ -29,16 +36,18 @@ export default class HoldingsChart extends React.PureComponent {
     }
 
     componentDidMount = () => {
-        if (!this.state.isDataSet) this.setPieData();
+        this.setPieData();
     }
 
     setPieData = () => {
-        for (let [keyP, portfolio] of Object.entries(this.state.account.portfolios)) {
-            for (let [keyI, investment] of Object.entries(portfolio.investments)) {
+        // Add the holdings to the chart
+        for (let [_, portfolio] of Object.entries(this.state.account.portfolios)) {
+            for (let [_, investment] of Object.entries(portfolio.investments)) {
                 this.state.data.labels.push(investment.ticker);
                 this.state.data.datasets[0].data.push(investment.amtBought);
             }
         }
+        console.log(this.state.data)
     }
 
     render = () => {

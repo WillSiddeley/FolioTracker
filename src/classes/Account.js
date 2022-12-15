@@ -52,4 +52,12 @@ export default class Account {
         if (!this.accountHasLot(lot)) this.getAccountInvestment(lot).addLot(lot);
     }
 
+    getAccountLabels() {
+
+    }
+
+    getAccountData() {
+
+    }
+
 }

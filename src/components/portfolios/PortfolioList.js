@@ -48,7 +48,7 @@ export default class PortfolioList extends React.Component {
                         </tr>
                     </tbody>
                 </table>
-                <AddInvestModal portfolioId={this.state.portfolio.getId()}/>
+                <AddInvestModal portfolioId={this.state.portfolio.getId()} refresh={this.props.refresh}/>
             </div>
         );
     }

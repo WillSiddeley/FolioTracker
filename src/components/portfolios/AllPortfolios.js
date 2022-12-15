@@ -21,6 +21,8 @@ export default class AllPortfolios extends React.Component {
     }
 
     getPortfolios = () => {
+        // Set loading to true
+        this.setState({ loading: true });
         // Fetch from database
         const url = `/api/v1/portfolios/${this.state.userId}`;
         api.default.get(url).then(res => {
@@ -38,7 +40,7 @@ export default class AllPortfolios extends React.Component {
         var portfolioKeys = Object.keys(portfolioHash);
         // Loop over each portfolio and add the component to the list
         portfolioKeys.forEach((item, index) => {
-            portfolioList.push(<PortfolioList key={item} portfolio={portfolioHash[item]}/>)
+            portfolioList.push(<PortfolioList key={item} portfolio={portfolioHash[item]} refresh={this.getPortfolios}/>)
         });
         return portfolioList;
     }
@@ -50,7 +52,7 @@ export default class AllPortfolios extends React.Component {
         else {
             return (
                 <div>
-                    <HoldingsChart account={ this.state.account }/>
+                    <HoldingsChart account={ this.state.account } accountLabels={ this.state.account.getAccountLabels() } accountData={ this.state.account.getAccountData() }/>
                     { this.renderPortfolio() }
                 </div>
             )
