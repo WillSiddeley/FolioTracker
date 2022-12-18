@@ -52,8 +52,26 @@ export default class AllPortfolios extends React.Component {
         else {
             return (
                 <div>
-                    <HoldingsChart account={ this.state.account } />
-                    { this.renderPortfolio() }
+                    <div className="row">
+                        <div className="col">
+                            <HoldingsChart account={ this.state.account } />
+                        </div>
+                        <div className="col">
+                            <div className="card">
+                                <div className="card-body">
+                                    <h5 className="card-title">Total Value</h5>
+                                    <p className="card-text">$1000</p>
+                                </div>
+                            </div>
+                            <div className="card">
+                                <div className="card-body">
+                                    <h5 className="card-title">Total Returns</h5>
+                                    <p className="card-text">10%</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                { this.renderPortfolio() }
                 </div>
             )
         }
