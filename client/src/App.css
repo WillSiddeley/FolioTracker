@@ -1,0 +1,87 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+.investList {
+  position: relative;
+  display: inline-block;
+  margin: 0;
+}
+
+.investListDropdown {
+  position: relative;
+  display: inline-block;
+  margin: 0;
+}
+
+.investListMenu {
+  position: absolute;
+  list-style-type: none;
+  margin: 5px 0;
+  padding: 0;
+  width: 150px;
+}
+
+.table {
+  table-layout: fixed;
+}
+
+.lightHover {
+  background-color: white;
+  transition: background-color 0.5s;
+}
+
+.lightHover:hover {
+  background-color: lightblue;
+}
+
+.ps-sidebar-root {
+  background-color: dimgrey;
+  box-shadow: 0.5px 0.866px 2px 0px rgba(0, 0, 0, 0.15);
+}
+
+.sidebar-logo {
+  width: 90%;
+  height: auto;
+  margin: auto;
+  padding: 20px;
+}
+
+input { 
+  text-transform: uppercase;
+}
+::-webkit-input-placeholder { /* WebKit browsers */
+  text-transform: none;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+  text-transform: none;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+  text-transform: none;
+}
+:-ms-input-placeholder { /* Internet Explorer 10+ */
+  text-transform: none;
+}
+::placeholder { /* Recent browsers */
+  text-transform: none;
+}

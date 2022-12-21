@@ -5,7 +5,7 @@ var config = {
     user:       'deathyvoid',
     password:   'DEATHYVOID',
     database:   'foliotracker',
-    host:       'localhost',
+    host:       'db',
     port:       5432,
     max:        10,
     statement_timeout: 15000,

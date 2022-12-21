@@ -1,4 +1,3 @@
-
 CREATE SCHEMA info;
 
 CREATE TABLE info.tickers (
@@ -41,7 +40,8 @@ CREATE TABLE invest.lot (
     id SERIAL UNIQUE,
     investment_ref INTEGER, CONSTRAINT investment_ref_fk FOREIGN KEY(investment_ref) REFERENCES invest.investment(id) ON DELETE CASCADE ON UPDATE CASCADE,
     quantity FLOAT,
-    price_paid MONEY
+    price_paid MONEY,
+    trade_date DATE
 );
 
 CREATE TYPE account_holdings AS (
@@ -77,9 +77,9 @@ JOIN invest.investment i ON i.portfolio_ref = p.id
 JOIN invest.lot l ON l.investment_ref = i.id
 JOIN info.tickers tn ON tn.id = i.ticker_ref
 JOIN info.investment_type it ON it.id = i.investment_type_ref
-WHERE p.user_ref = $1;
+WHERE p.user_ref = userId;
 $$
-LANGUAGE PLPGSQL;
+LANGUAGE SQL;
 
 CREATE OR REPLACE FUNCTION get_or_add_ticker(symbol_name VARCHAR(10))
     RETURNS INTEGER
