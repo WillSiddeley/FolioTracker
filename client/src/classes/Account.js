@@ -13,6 +13,10 @@ export default class Account {
         return this.portfolios;
     }
 
+    hasAccountPortfolios() {
+        return (this.portfolios == {});
+    }
+
     accountHasPortfolio(lot) {
         return (lot.portfolio_id in this.portfolios);
     }

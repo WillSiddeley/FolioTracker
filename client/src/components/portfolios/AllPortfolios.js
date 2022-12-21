@@ -3,6 +3,8 @@ import Account from "../../classes/Account";
 import PortfolioList from "./PortfolioList";
 import HoldingsChart from "./HoldingsChart";
 import ItemCard from '../small/ItemCard';
+import NewUser from './NewUser';
+import AddPortfolioModal from '../modals/AddPortfolioModal';
 
 const api = require("../../api/api");
 
@@ -54,6 +56,11 @@ export default class AllPortfolios extends React.Component {
         if (this.state.loading) {
             return <p>Loading...</p>
         }
+        
+        if (!this.state.account.hasAccountPortfolios()) {
+            return <NewUser userId={ this.state.userId } />
+        } 
+        
         else {
             return (
                 <div className="container">

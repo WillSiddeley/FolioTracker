@@ -1,8 +1,5 @@
 # Start from a base NodeJs image
-FROM node:18-alpine
-
-# Install serve globally
-RUN npm install -g serve
+FROM node:18-alpine AS builder
 
 WORKDIR /usr/src/foliotracker/client
 
@@ -16,8 +13,19 @@ COPY . .
 # Build the client
 RUN npm run build
 
+# Use NGINX as web server
+FROM nginx:alpine
+
+WORKDIR /usr/share/nginx/html
+
+# Remove default NGINX static assets
+RUN rm -rf *
+
+# Copy static assets from builder
+COPY --from=builder /usr/src/foliotracker/client/build .
+
 # Expose port 3000
 EXPOSE 3000
 
 # Default command to serve front-end
-CMD ["serve", "-s", "build"]
+CMD ["nginx", "-g", "daemon off;"]

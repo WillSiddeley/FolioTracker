@@ -85,3 +85,12 @@ input {
 ::placeholder { /* Recent browsers */
   text-transform: none;
 }
+
+/* New User Div */
+#newUser {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  top: 20%;
+}
